@@ -20,4 +20,6 @@ include_directories(include)
 file(GLOB SOURCES "src/*.c")
 
 # 5. Executável final
-add_executable(kilo ${SOURCES})
+add_executable(kilo ${SOURCES}
+        include/terminal.h
+        src/terminal.c)

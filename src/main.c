@@ -1,8 +1,11 @@
+#include "terminal.h"
 #include <stdio.h>
 #include <ctype.h>
 #include <unistd.h> /* API Posix standard */
 
 int main() {
+    enableRawMode();
+
     char c;
 
     // STDIN_FILENO: É uma constante que representa o File Descriptor
