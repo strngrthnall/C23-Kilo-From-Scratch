@@ -1,34 +1,22 @@
 #include "terminal.h"
+#include "input.h"
 #include <stdio.h>
 #include <ctype.h>
-#include <unistd.h> /* API Posix standard */
-#include <errno.h>
-#include <stdlib.h>
 
-void die(const char *s) {
-    perror(s);
-    exit(1);
-}
 
 int main(void) {
     enableRawMode();
 
     while (1) {
-        char c = '\0';
+        int c = editorReadKey();
 
-        if (read(STDIN_FILENO, &c, 1) == -1 && errno != EAGAIN) {
-            die("read failed");
-        }
-
-        if (c == 'q') {
+        if (c == CTRL_KEY('q')) {
+            printf("\x1b[2J");
+            printf("\x1b[H");
             break;
         }
 
-        if (c == '\0') {
-            continue;
-        }
-
-        if (iscntrl(c)) {
+        if (c >= 1000 || iscntrl(c)) {
             printf("%d\n", c);
         } else {
             printf("%d ('%c')\n",c, c);

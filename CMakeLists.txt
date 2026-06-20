@@ -22,4 +22,6 @@ file(GLOB SOURCES "src/*.c")
 # 5. Executável final
 add_executable(kilo ${SOURCES}
         include/terminal.h
-        src/terminal.c)
+        src/terminal.c
+        include/input.h
+        src/input.c)
