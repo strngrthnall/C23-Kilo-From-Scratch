@@ -43,3 +43,9 @@ O desenvolvimento está estruturado de forma incremental para garantir clareza c
 * **Código Base Original:** O editor `kilo` foi idealizado e implementado originalmente por **Salvatore Sanfilippo (antirez)** sob a licença BSD de 2 cláusulas.
 * **Material de Apoio Didático:** A trilha lógica e conceitual baseia-se no projeto didático criado por Jeremy Ruten.
 * **Modernização e Adaptações:** Todo o trabalho de transposição para **C23**, documentação arquitetural e expansão conceitual foi realizado de forma independente com viés de estudo e engenharia de software.
+
+---
+
+## ⚖️ Licença
+
+Este projeto é distribuído sob a licença BSD de 2 cláusulas. Para mais detalhes, consulte o arquivo [LICENSE](file:///home/mvrmiranda/Documentos/Estudos/C/Projetos/C23%20Kilo%20From%20Scratch/LICENSE).
