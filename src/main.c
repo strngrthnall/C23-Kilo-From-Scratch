@@ -2,19 +2,36 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <unistd.h> /* API Posix standard */
+#include <errno.h>
+#include <stdlib.h>
+
+void die(const char *s) {
+    perror(s);
+    exit(1);
+}
 
 int main(void) {
     enableRawMode();
 
-    char c;
+    while (1) {
+        char c = '\0';
 
-    // STDIN_FILENO: É uma constante que representa o File Descriptor
-    // (Descritor de Arquivo) número 0.
-    while (read(STDIN_FILENO, &c, 1) == 1 && c != 'q') {
-        if (iscntrl(c) /* Avalia se o byte lido é imprìmivel */) {
+        if (read(STDIN_FILENO, &c, 1) == -1 && errno != EAGAIN) {
+            die("read failed");
+        }
+
+        if (c == 'q') {
+            break;
+        }
+
+        if (c == '\0') {
+            continue;
+        }
+
+        if (iscntrl(c)) {
             printf("%d\n", c);
         } else {
-            printf("%d ('%c')\n", c, c);
+            printf("%d ('%c')\n",c, c);
         }
     }
 
