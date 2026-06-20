@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include <unistd.h> /* API Posix standard */
 
-int main() {
+int main(void) {
     enableRawMode();
 
     char c;
