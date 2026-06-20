@@ -1,4 +1,4 @@
-# C23_Kilo_From_Scratch
+# C23 Kilo From Scratch
 
 Um editor de texto para terminal desenvolvido do zero e modernizado para o padrão **C23**.
 
@@ -29,12 +29,12 @@ Construir este projeto do zero visa solidificar conceitos essenciais de ciência
 
 O desenvolvimento está estruturado de forma incremental para garantir clareza conceitual a cada etapa:
 
-* **Fase 1: Entrada Bruta (*Raw Input*):** Configuração do terminal para capturar teclas byte-a-byte, desativando ecôos automáticos e interrupções padrão do sistema para controle total da aplicação.
-* **Fase 2: Saída Avançada e Bufferização:** Implementação de um sistema de atualização de tela otimizado para evitar *flickering* (piscadas na tela), agrupando comandos de escape e caracteres textuais em um buffer dinâmico de escrita única.
-* **Fase 3: Visualização de Arquivos (*Text Viewer*):** Leitura de arquivos do disco rígido e mapeamento para uma estrutura de linhas sequenciais na memória principal do programa.
-* **Fase 4: Edição Atômica de Texto:** Criação de algoritmos seguros para inserção e remoção de caracteres em qualquer posição espacial do documento, seguidos pela persistência fiel de volta ao sistema de arquivos.
-* **Fase 5: Localização e Busca Incremental:** Desenvolvimento de um motor de busca de substrings que navega em tempo real pelo buffer conforme as teclas são pressionadas, atualizando a posição visual do cursor instantaneamente.
-* **Fase 6: Análise Léxica e Destaque de Sintaxe (*Syntax Highlighting*):** Construção de um *parser* simples para categorização de tokens (números, strings, palavras-chave da linguagem, comentários) e colorização dinâmica de código no terminal.
+- [x] **Fase 1: Entrada Bruta (*Raw Input*):** Configuração do terminal para capturar teclas byte-a-byte, desativando ecôos automáticos e interrupções padrão do sistema para controle total da aplicação.
+- [ ] **Fase 2: Saída Avançada e Bufferização:** Implementação de um sistema de atualização de tela otimizado para evitar *flickering* (piscadas na tela), agrupando comandos de escape e caracteres textuais em um buffer dinâmico de escrita única.
+- [ ] **Fase 3: Visualização de Arquivos (*Text Viewer*):** Leitura de arquivos do disco rígido e mapeamento para uma estrutura de linhas sequenciais na memória principal do programa.
+- [ ] **Fase 4: Edição Atômica de Texto:** Criação de algoritmos seguros para inserção e remoção de caracteres em qualquer posição espacial do documento, seguidos pela persistência fiel de volta ao sistema de arquivos.
+- [ ] **Fase 5: Localização e Busca Incremental:** Desenvolvimento de um motor de busca de substrings que navega em tempo real pelo buffer conforme as teclas são pressionadas, atualizando a posição visual do cursor instantaneamente.
+- [ ] **Fase 6: Análise Léxica e Destaque de Sintaxe (*Syntax Highlighting*):** Construção de um *parser* simples para categorização de tokens (números, strings, palavras-chave da linguagem, comentários) e colorização dinâmica de código no terminal.
 
 ---
 
