@@ -1,13 +1,16 @@
 #include "terminal.h"
 #include "input.h"
+#include "output.h"
 #include <stdio.h>
-#include <ctype.h>
+
 
 
 int main(void) {
     enableRawMode();
 
     while (1) {
+        editorRefreshScreen();
+
         int c = editorReadKey();
 
         if (c == CTRL_KEY('q')) {
@@ -16,11 +19,6 @@ int main(void) {
             break;
         }
 
-        if (c >= 1000 || iscntrl(c)) {
-            printf("%d\n", c);
-        } else {
-            printf("%d ('%c')\n",c, c);
-        }
     }
 
     return 0;
