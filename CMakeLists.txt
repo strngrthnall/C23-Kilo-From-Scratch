@@ -24,4 +24,9 @@ add_executable(kilo ${SOURCES}
         include/terminal.h
         src/terminal.c
         include/input.h
-        src/input.c)
+        src/input.c
+        include/output.h
+        src/output.c
+        include/editor.h
+        include/abuf.h
+        src/abuf.c)
