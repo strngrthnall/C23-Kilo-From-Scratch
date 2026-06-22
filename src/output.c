@@ -3,10 +3,12 @@
 //
 
 #include "output.h"
+#include "editor.h"
 #include <unistd.h>
 
 static void editorDrawRows(void) {
-    for (int y = 0; y < 24; y++) {
+    // Desenhando o número de linhas que o terminal possui
+    for (int y = 0; y < E.screen_rows; y++) {
         write(STDOUT_FILENO, "~\r\n", 3);
     }
 }

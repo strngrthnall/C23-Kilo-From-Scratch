@@ -3,17 +3,14 @@
 //
 
 #include "input.h"
+#include "terminal.h"
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-static void die(const char *s) {
-    perror(s);
-    exit(1);
-}
-
 static bool verifyRead(char seq[], int num) {
+
     return read(STDIN_FILENO, &seq[num], 1) != 1;
 }
 

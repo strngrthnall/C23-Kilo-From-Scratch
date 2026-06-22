@@ -26,4 +26,5 @@ add_executable(kilo ${SOURCES}
         include/input.h
         src/input.c
         include/output.h
-        src/output.c)
+        src/output.c
+        include/editor.h)
