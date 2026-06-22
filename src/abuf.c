@@ -26,4 +26,6 @@ void abAppend(struct abuf *ab, const char *s, int len) {
 void abFree(struct abuf *ab) {
     // Devolve a memória ao Sistema para evitar Memory Leaks
     free(ab->b);
+    ab->b = NULL;
+    ab->len = 0;
 }
