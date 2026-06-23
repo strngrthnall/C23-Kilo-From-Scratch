@@ -6,6 +6,8 @@
 #include "output.h"
 #include "editor.h"
 #include <unistd.h>
+#include <string.h>
+#include <stdio.h>
 
 static void editorDrawRows(struct abuf *ab) {
     // Desenhando o número de linhas que o terminal possui
@@ -40,10 +42,14 @@ void editorRefreshScreen(void) {
     // 4. Desenha a Interface
     editorDrawRows(&ab);
 
-    // 5. Devolve o cursor para o topo
-    abAppend(&ab, "\x1b[H", 3);
+    // 5. string dinâmica com snprintf para enviar a posição real (E.cy + 1, E.cx + 1)
+    char buf[32];
+    snprintf(buf, sizeof(buf), "\x1b[%d;%dH", E.cy + 1, E.cx + 1);
 
-    // 6. Mostra o cursor novamente
+    // 6. Devolve o cursor para o topo
+    abAppend(&ab, buf, strlen(buf));
+
+    // 7. Mostra o cursor novamente
     // h: ativar
     abAppend(&ab, "\x1b[?25h", 6);
 

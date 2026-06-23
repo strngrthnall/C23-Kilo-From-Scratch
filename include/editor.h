@@ -6,6 +6,7 @@
 #define EDITOR_H
 
 struct editorConfig {
+    int cx, cy;
     int screen_rows;
     int screen_cols;
 };
