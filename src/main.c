@@ -4,6 +4,8 @@
 #include "editor.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+#include <stdio.h>
 
 // Instanciação do estado global do editor.
 struct editorConfig E;
@@ -13,10 +15,24 @@ void initEditor(void) {
     // Inicializa o cursor no topo esquerdo (0,0)
     E.cx = 0;
     E.cy = 0;
+    E.num_rows = 0; // Inicializa sem nenhuma linha;
 
     if (terminalGetWindowSize(&E.screen_rows, &E.screen_cols) == -1) {
         die("terminalGetWindowSize failed");
     }
+
+    // --- MOCK TEMPORÁRIO ---
+    // Injeção de linha manual, para testar a renderização.
+    E.num_rows = 1;
+    E.row.size = 13; // Tamanho de "Hello, world!"
+
+    // Alocando memŕoia para 12 letras + 1 byte nulo ('\0')
+    E.row.chars = malloc(14);
+
+    // Copia os bytes para o bloco alocado
+    memcpy(E.row.chars, "Hello, world!", 13);
+    E.row.chars[13] = '\0'; // Finaliza a string de forma segura
+    // -----------------------
 }
 
 void editorMoveCursor(int key) {
