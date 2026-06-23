@@ -26,7 +26,7 @@ void initEditor(void) {
     E.num_rows = 1;
     E.row.size = 13; // Tamanho de "Hello, world!"
 
-    // Alocando memŕoia para 12 letras + 1 byte nulo ('\0')
+    // Alocando memória para 12 letras + 1 byte nulo ('\0')
     E.row.chars = malloc(14);
 
     // Copia os bytes para o bloco alocado
