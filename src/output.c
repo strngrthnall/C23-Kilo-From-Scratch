@@ -12,7 +12,25 @@
 static void editorDrawRows(struct abuf *ab) {
     // Desenhando o número de linhas que o terminal possui
     for (int y = 0; y < E.screen_rows; y++) {
-        abAppend(ab, "~\r\n", 3);
+        // Verifica se é texto ou espaço vazio
+        if (y >= E.num_rows) {
+            // Linha vazia: desenha o til
+            abAppend(ab, "~", 1);
+        } else {
+            // Linha com texto real
+            int len = E.row.size;
+
+            // Nunca desenha fora dos limites do terminal.
+            if (len > E.screen_cols) len = E.screen_cols;
+
+            abAppend(ab, E.row.chars, len);
+        }
+
+        abAppend(ab, "\x1b[K", 3);
+
+        if (y < E.screen_rows - 1) {
+            abAppend(ab, "\r\n", 2);
+        }
     }
 }
 
@@ -47,7 +65,7 @@ void editorRefreshScreen(void) {
     snprintf(buf, sizeof(buf), "\x1b[%d;%dH", E.cy + 1, E.cx + 1);
 
     // 6. Devolve o cursor para o topo
-    abAppend(&ab, buf, strlen(buf));
+    abAppend(&ab, buf, (int)strlen(buf));
 
     // 7. Mostra o cursor novamente
     // h: ativar
