@@ -21,6 +21,7 @@ void initEditor(void) {
     E.cy = 0;
     E.num_rows = 0; // Inicializa sem nenhuma linha;
     E.row = nullptr;
+    E.filename = nullptr;
 
     if (terminalGetWindowSize(&E.screen_rows, &E.screen_cols) == -1) {
         die("terminalGetWindowSize failed");
@@ -74,6 +75,9 @@ void editorAppendRow(const char *s, const size_t len) {
 }
 
 void editorOpen(const char *filename) {
+    // Aloca memória e duplica a string do nome do ficheiro para o nosso estado global
+    E.filename = strdup(filename);
+
     // Tenta abrir o ficheiro em modo dde leitura ("r" - read)
     FILE *fp = fopen(filename, "r");
     if (!fp) die("fopen"); // Se o ficheiro não existir ou não tivermos permissão, crashamos
