@@ -5,6 +5,8 @@
 #ifndef EDITOR_H
 #define EDITOR_H
 
+#include <stddef.h>
+
 typedef struct erow {
     int size;
     char *chars;
@@ -15,9 +17,11 @@ struct editorConfig {
     int screen_rows;
     int screen_cols;
     int num_rows;
-    erow row;
+    erow *row;
 };
 
 extern struct editorConfig E;
+
+void editorAppendRow(const char *s, size_t len);
 
 #endif //EDITOR_H

@@ -18,12 +18,12 @@ static void editorDrawRows(struct abuf *ab) {
             abAppend(ab, "~", 1);
         } else {
             // Linha com texto real
-            int len = E.row.size;
+            int len = E.row[y].size;
 
             // Nunca desenha fora dos limites do terminal.
             if (len > E.screen_cols) len = E.screen_cols;
 
-            abAppend(ab, E.row.chars, len);
+            abAppend(ab, E.row[y].chars, len);
         }
 
         abAppend(ab, "\x1b[K", 3);
