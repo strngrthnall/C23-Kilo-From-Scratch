@@ -16,26 +16,15 @@ void initEditor(void) {
     E.cx = 0;
     E.cy = 0;
     E.num_rows = 0; // Inicializa sem nenhuma linha;
+    E.row = nullptr;
 
     if (terminalGetWindowSize(&E.screen_rows, &E.screen_cols) == -1) {
         die("terminalGetWindowSize failed");
     }
 
-    // --- MOCK TEMPORÁRIO ---
-    // Injeção de linha manual, para testar a renderização.
-    E.num_rows = 1;
-    E.row.size = 13; // Tamanho de "Hello, world!"
-
-    // Alocando memória para 12 letras + 1 byte nulo ('\0')
-    E.row.chars = malloc(14);
-
-    // Copia os bytes para o bloco alocado
-    memcpy(E.row.chars, "Hello, world!", 13);
-    E.row.chars[13] = '\0'; // Finaliza a string de forma segura
-    // -----------------------
 }
 
-void editorMoveCursor(int key) {
+void editorMoveCursor(const int key) {
     switch (key) {
         case ARROW_LEFT:
             if (E.cx > 0) E.cx--;
