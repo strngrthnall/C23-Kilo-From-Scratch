@@ -18,6 +18,7 @@ struct editorConfig {
     int screen_cols;
     int num_rows;
     erow *row;
+    char *filename;
 };
 
 extern struct editorConfig E;
