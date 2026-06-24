@@ -22,6 +22,14 @@ void initEditor(void) {
         die("terminalGetWindowSize failed");
     }
 
+    // --- MOCK TEMPORÁRIO ---
+    // Injetamos múltiplas linhas sequenciais para testar o array dinâmico
+    editorAppendRow("Linha 1: Engenharia de Sistemas em C.", 37);
+    editorAppendRow("Linha 2: O array dinamico funciona perfeitamente.", 49);
+    editorAppendRow("Linha 3: Buffer de anexacao eliminou o flickering.", 49);
+    editorAppendRow("Linha 4: Reta final da Issue 1.2 alcançada com sucesso.", 55);
+    // -----------------------
+
 }
 
 void editorMoveCursor(const int key) {
