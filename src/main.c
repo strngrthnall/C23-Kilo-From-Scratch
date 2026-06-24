@@ -1,3 +1,5 @@
+#define _DEFAULT_SOURCE
+
 #include "terminal.h"
 #include "input.h"
 #include "output.h"
@@ -6,6 +8,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
+#include <sys/types.h>
+
 
 // Instanciação do estado global do editor.
 struct editorConfig E;
@@ -60,7 +64,7 @@ void editorAppendRow(const char *s, const size_t len) {
     erow *new_erow = realloc(E.row, sizeof(erow) * (at +1));
     if (new_erow == NULL) {
         // Falha de alocação
-        return;
+        die("editorAppendRow: realloc");
     }
     E.row = new_erow;
 
@@ -76,6 +80,34 @@ void editorAppendRow(const char *s, const size_t len) {
 
     // 5. Atualiza a contagem global de linhas
     E.num_rows++;
+}
+
+void editorOpen(const char *filename) {
+    // Tenta abrir o ficheiro em modo dde leitura ("r" - read)
+    FILE *fp = fopen(filename, "r");
+    if (!fp) die("fopen"); // Se o ficheiro não existir ou não tivermos permissão, crashamos
+
+    char *line = NULL;     // O ponteiro onde o getline() vai guardar a linha lida
+    size_t linecap = 0;    // A capacidade de memória que o getline() já alocou
+    ssize_t linelen;       // O tamanho da linha efetivamente lida (ssize_t porque pode ser -1 no erro/EOF)
+
+    // O getline() devovle -1 quando chega ao fim do ficheiro (EOF)
+    while ((linelen = getline(&line, &linecap, fp)) != -1) {
+        // --- DATA SANITIZATION ---
+        // Ficheiros podem ter \n (Linux/Mac) ou \r\n (Windows) no final de cada linha.
+        // O nosso motor de renderização (output.c) já insere \r\n na tela.
+        // Portanto, temos de "aparar" estes caracteres finais do texto lido.
+        while (linelen > 0 && (line[linelen - 1] == '\n' || line[linelen - 1] == '\r')) {
+            linelen--;
+        }
+
+        // Passa a linha limpa para o array dinâmico
+        editorAppendRow(line, linelen);
+    }
+
+    free(line);
+
+    fclose(fp);
 }
 
 int main(void) {

@@ -24,4 +24,6 @@ extern struct editorConfig E;
 
 void editorAppendRow(const char *s, size_t len);
 
+void editorOpen(const char *filename);
+
 #endif //EDITOR_H
