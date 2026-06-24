@@ -18,10 +18,13 @@ struct editorConfig {
     int screen_cols;
     int num_rows;
     erow *row;
+    char *filename;
 };
 
 extern struct editorConfig E;
 
 void editorAppendRow(const char *s, size_t len);
+
+void editorOpen(const char *filename);
 
 #endif //EDITOR_H

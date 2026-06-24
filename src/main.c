@@ -1,3 +1,5 @@
+#define _DEFAULT_SOURCE
+
 #include "terminal.h"
 #include "input.h"
 #include "output.h"
@@ -6,6 +8,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
+#include <sys/types.h>
+
 
 // Instanciação do estado global do editor.
 struct editorConfig E;
@@ -17,19 +21,11 @@ void initEditor(void) {
     E.cy = 0;
     E.num_rows = 0; // Inicializa sem nenhuma linha;
     E.row = nullptr;
+    E.filename = nullptr;
 
     if (terminalGetWindowSize(&E.screen_rows, &E.screen_cols) == -1) {
         die("terminalGetWindowSize failed");
     }
-
-    // --- MOCK TEMPORÁRIO ---
-    // Injetamos múltiplas linhas sequenciais para testar o array dinâmico
-    editorAppendRow("Linha 1: Engenharia de Sistemas em C.", 37);
-    editorAppendRow("Linha 2: O array dinamico funciona perfeitamente.", 49);
-    editorAppendRow("Linha 3: Buffer de anexacao eliminou o flickering.", 49);
-    editorAppendRow("Linha 4: Reta final da Issue 1.2 alcançada com sucesso.", 55);
-    // -----------------------
-
 }
 
 void editorMoveCursor(const int key) {
@@ -60,7 +56,7 @@ void editorAppendRow(const char *s, const size_t len) {
     erow *new_erow = realloc(E.row, sizeof(erow) * (at +1));
     if (new_erow == NULL) {
         // Falha de alocação
-        return;
+        die("editorAppendRow: realloc");
     }
     E.row = new_erow;
 
@@ -78,9 +74,47 @@ void editorAppendRow(const char *s, const size_t len) {
     E.num_rows++;
 }
 
-int main(void) {
+void editorOpen(const char *filename) {
+    // Aloca memória e duplica a string do nome do ficheiro para o nosso estado global
+    E.filename = strdup(filename);
+
+    // Tenta abrir o ficheiro em modo de leitura ("r" - read)
+    FILE *fp = fopen(filename, "r");
+    if (!fp) die("fopen"); // Se o ficheiro não existir ou não tivermos permissão, crashamos
+
+    char *line = NULL;     // O ponteiro onde o getline() vai guardar a linha lida
+    size_t linecap = 0;    // A capacidade de memória que o getline() já alocou
+    ssize_t linelen;       // O tamanho da linha efetivamente lida (ssize_t porque pode ser -1 no erro/EOF)
+
+    // O getline() devovle -1 quando chega ao fim do ficheiro (EOF)
+    while ((linelen = getline(&line, &linecap, fp)) != -1) {
+        // --- DATA SANITIZATION ---
+        // Ficheiros podem ter \n (Linux/Mac) ou \r\n (Windows) no final de cada linha.
+        // O nosso motor de renderização (output.c) já insere \r\n na tela.
+        // Portanto, temos de "aparar" estes caracteres finais do texto lido.
+        while (linelen > 0 && (line[linelen - 1] == '\n' || line[linelen - 1] == '\r')) {
+            linelen--;
+        }
+
+        // Passa a linha limpa para o array dinâmico
+        editorAppendRow(line, linelen);
+    }
+
+    free(line);
+
+    fclose(fp);
+}
+
+int main(int argc, char *argv[]) {
     enableRawMode();
     initEditor();
+
+    // Se o utilizador passou pelo menos 2 palavras (ex: "./kilo" e "teste.txt")
+    // argv[0] é sempre o nome do programa (ex: "./kilo")
+    // argv[1] é o primeiro argumento (o nome do ficheiro)
+    if (argc >= 2) {
+        editorOpen(argv[1]);
+    }
 
     while (1) {
         editorRefreshScreen();
