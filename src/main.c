@@ -25,15 +25,6 @@ void initEditor(void) {
     if (terminalGetWindowSize(&E.screen_rows, &E.screen_cols) == -1) {
         die("terminalGetWindowSize failed");
     }
-
-    // --- MOCK TEMPORÁRIO ---
-    // Injetamos múltiplas linhas sequenciais para testar o array dinâmico
-    editorAppendRow("Linha 1: Engenharia de Sistemas em C.", 37);
-    editorAppendRow("Linha 2: O array dinamico funciona perfeitamente.", 49);
-    editorAppendRow("Linha 3: Buffer de anexacao eliminou o flickering.", 49);
-    editorAppendRow("Linha 4: Reta final da Issue 1.2 alcançada com sucesso.", 55);
-    // -----------------------
-
 }
 
 void editorMoveCursor(const int key) {
@@ -110,9 +101,16 @@ void editorOpen(const char *filename) {
     fclose(fp);
 }
 
-int main(void) {
+int main(int argc, char *argv[]) {
     enableRawMode();
     initEditor();
+
+    // Se o utilizador passou pelo menos 2 palavras (ex: "./kilo" e "teste.txt")
+    // argv[0] é sempre o nome do programa (ex: "./kilo")
+    // argv[1] é o primeiro argumento (o nome do ficheiro)
+    if (argc >= 2) {
+        editorOpen(argv[1]);
+    }
 
     while (1) {
         editorRefreshScreen();
